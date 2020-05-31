@@ -25,7 +25,7 @@ class LoginScreenState extends State<LoginScreen> {
             email(),
             SizedBox(height: 8.0),
             password(),
-            //submitButton(),
+            submitButton(),
           ],
         ),
       ),
@@ -156,7 +156,7 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  /*Widget submitButton() {
+  Widget submitButton() {
     return ButtonTheme(
       minWidth: 400,
       child: RaisedButton(
@@ -170,5 +170,5 @@ class LoginScreenState extends State<LoginScreen> {
         child: Text("Submit"),
       ),
     );
-  }*/
+  }
 }
