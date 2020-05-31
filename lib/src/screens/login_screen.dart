@@ -19,12 +19,13 @@ class LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             logoAndTitle(),
-            SizedBox(height: 30.0),
+            SizedBox(height: 50.0),
             nameAndAge(),
             SizedBox(height: 8.0),
             email(),
             SizedBox(height: 8.0),
             password(),
+            SizedBox(height: 50),
             submitButton(),
           ],
         ),
@@ -101,43 +102,49 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   Widget password() {
-    return Expanded(
-      child: TextFormField(
-        obscureText: true,
-        decoration: InputDecoration(
-          labelText: 'Password',
-          hintText: 'P@ssword?123',
-          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(40.0),
-            borderSide: BorderSide(),
-          ),
-          prefixIcon: Icon(Icons.lock),
+    return TextFormField(
+      obscureText: true,
+      decoration: InputDecoration(
+        labelText: 'Password',
+        hintText: 'P@ssword?123',
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(40.0),
+          borderSide: BorderSide(),
         ),
-        validator: (String value) {
-          if (value.length < 4) {
-            return 'Password must be atleast 4 characters';
-          } else {
-            return null;
-          }
-        },
+        prefixIcon: Icon(Icons.lock),
       ),
+      validator: (String value) {
+        if (value.length < 4) {
+          return 'Password must be atleast 4 characters';
+        } else {
+          return null;
+        }
+      },
     );
   }
 
   Widget logoAndTitle() {
     return Container(
       margin: EdgeInsetsDirectional.only(top: 20.0),
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Image(
             image: AssetImage('assets/images/login.png'),
-            height: 60,
-            width: 60,
+            height: 100,
+            width: 100,
           ),
-          SizedBox(width: 80.0),
-          Text("Login"),
+          SizedBox(height: 20.0),
+          Text(
+            'Sign Up',
+            style: TextStyle(
+              fontSize: 40,
+              fontFamily: 'SourceSansLight',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
         ],
       ),
     );
