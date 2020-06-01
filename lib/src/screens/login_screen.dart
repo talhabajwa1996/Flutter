@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../mixins/validator_mixin.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -7,8 +8,11 @@ class LoginScreen extends StatefulWidget {
   }
 }
 
-class LoginScreenState extends State<LoginScreen> {
+class LoginScreenState extends State<LoginScreen> with ValidatorMixin {
   var formkey = GlobalKey<FormState>();
+  String savedEmail = '';
+  String savedPassword = '';
+
   Widget build(context) {
     return Form(
       key: formkey,
@@ -37,8 +41,8 @@ class LoginScreenState extends State<LoginScreen> {
     return TextFormField(
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-        labelText: 'Email',
-        hintText: 'example@example.com',
+        //labelText: 'Email',
+        hintText: 'Email',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(40.0),
@@ -46,67 +50,64 @@ class LoginScreenState extends State<LoginScreen> {
         ),
         prefixIcon: Icon(Icons.email),
       ),
-      validator: (String value) {
-        if (value.isEmpty ||
-            !RegExp(r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-                .hasMatch(value)) {
-          return 'Invalid Email';
-        } else {
-          return null;
-        }
+      validator: validateEmail,
+      onSaved: (value) {
+        savedEmail = value;
       },
     );
   }
 
-  Widget name() {
+  /*Widget name() {
     return Expanded(
-        child: TextFormField(
-      decoration: InputDecoration(
-        labelText: 'Name',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(40.0),
-          borderSide: BorderSide(),
+      child: TextFormField(
+        decoration: InputDecoration(
+          hintText: 'Name',
+          contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(40.0),
+            borderSide: BorderSide(),
+          ),
         ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Enter a valid Name';
+          } else {
+            return null;
+          }
+        },
       ),
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Enter a valid Name';
-        } else {
-          return null;
-        }
-      },
-    ));
+    );
   }
 
   Widget age() {
     return Expanded(
-        child: TextFormField(
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-        labelText: 'Age',
-        contentPadding: EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 8.0),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(40.0),
-          borderSide: BorderSide(),
+      child: TextFormField(
+        keyboardType: TextInputType.number,
+        decoration: InputDecoration(
+          hintText: 'Age',
+          contentPadding: EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 8.0),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(40.0),
+            borderSide: BorderSide(),
+          ),
         ),
+        validator: (String value) {
+          if (value.isEmpty) {
+            return 'Enter a valid age';
+          } else {
+            return null;
+          }
+        },
       ),
-      validator: (String value) {
-        if (value.isEmpty) {
-          return 'Enter a valid age';
-        } else {
-          return null;
-        }
-      },
-    ));
-  }
+    );
+  }*/
 
   Widget password() {
     return TextFormField(
       obscureText: true,
       decoration: InputDecoration(
-        labelText: 'Password',
-        hintText: 'P@ssword?123',
+        //labelText: 'Password',
+        hintText: 'Password',
         contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(40.0),
@@ -114,12 +115,9 @@ class LoginScreenState extends State<LoginScreen> {
         ),
         prefixIcon: Icon(Icons.lock),
       ),
-      validator: (String value) {
-        if (value.length < 4) {
-          return 'Password must be atleast 4 characters';
-        } else {
-          return null;
-        }
+      validator: validatePassword,
+      onSaved: (value) {
+        savedPassword = value;
       },
     );
   }
@@ -150,18 +148,19 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget nameAndAge() {
+  /*Widget nameAndAge() {
     return Container(
       child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            name(),
-            SizedBox(width: 20),
-            age(),
-          ]),
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          name(),
+          SizedBox(width: 20),
+          age(),
+        ],
+      ),
     );
-  }
+  }*/
 
   Widget submitButton() {
     return ButtonTheme(
@@ -171,7 +170,10 @@ class LoginScreenState extends State<LoginScreen> {
           borderRadius: BorderRadius.circular(20),
         ),
         onPressed: () {
-          formkey.currentState.validate();
+          if (formkey.currentState.validate()) {
+            formkey.currentState.save();
+            print("The Email is $savedEmail and Password is $savedPassword");
+          }
         },
         color: Colors.lightBlue,
         child: Text("Submit"),
