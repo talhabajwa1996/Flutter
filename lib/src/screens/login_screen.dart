@@ -20,8 +20,8 @@ class LoginScreenState extends State<LoginScreen> {
           children: [
             logoAndTitle(),
             SizedBox(height: 50.0),
-            nameAndAge(),
-            SizedBox(height: 8.0),
+            //nameAndAge(),
+            //SizedBox(height: 8.0),
             email(),
             SizedBox(height: 8.0),
             password(),
@@ -138,7 +138,7 @@ class LoginScreenState extends State<LoginScreen> {
           ),
           SizedBox(height: 20.0),
           Text(
-            'Sign Up',
+            'Login',
             style: TextStyle(
               fontSize: 40,
               fontFamily: 'SourceSansLight',
